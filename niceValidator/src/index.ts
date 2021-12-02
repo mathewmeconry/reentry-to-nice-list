@@ -6,6 +6,7 @@ import path from "path";
 import { ethers } from "ethers";
 import crypto from "crypto";
 import bodyParser from "body-parser";
+import { poapLinks } from "./poapLinks";
 
 const addressToUUID: { [index: string]: string } = {};
 
@@ -61,7 +62,15 @@ async function getFlag(req: express.Request, res: express.Response) {
       );
       const isNice = await contract.isNice(req.body.address);
       if (isNice) {
-        res.send(`Congrats your a nice person :) <br> Here is your flag: ${process.env.FLAG}`);
+        const poapLink = poapLinks[Math.round(Math.random() * 500)];
+        res.send(
+          `Congrats your a nice person :) \
+            <br> Here is your flag: ${process.env.FLAG} \ 
+            <br><br> \
+            Get your free NFT at: <a href="${poapLink}">${poapLink}</a> <br> \
+            P.S.: if the nft for this link is already claimed just refresh the page. You'll get a new link which maybe works :)
+          `
+        );
       } else {
         res.send(`${verifiedAccount} not nice enough to get the flag :(`);
       }
