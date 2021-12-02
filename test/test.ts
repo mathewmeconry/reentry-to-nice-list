@@ -1,48 +1,70 @@
 import { expect } from "chai";
-import { ethers, network } from "hardhat";
+import { ethers } from "hardhat";
 
-it("should pass", async () => {
+it("should have not started", async () => {
   const [deployer, attacker] = await ethers.getSigners();
-
-  console.log("Deployer:", deployer.address);
-  console.log("Attacker:", attacker.address);
-
   const SantasList = await ethers.getContractFactory("SantasList", deployer);
   const santasList = await SantasList.deploy();
+  const deeds = await santasList.goodDeedsLeft(attacker.address);
+  expect(deeds).to.equal(0);
+});
 
-  console.log("SantasList:", santasList.address);
+it("should not be nice", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  const isNice = await santasList.isNice(attacker.address);
+  expect(isNice).to.equal(false);
+});
 
+it("should start", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  await santasList.connect(attacker).start();
+  const deeds = await santasList.goodDeedsLeft(attacker.address);
+  expect(deeds).to.equal(12);
+  const isNice = await santasList.isNice(attacker.address);
+  expect(isNice).to.equal(false);
+});
+
+it("should remove 1 deed", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  await santasList.connect(attacker).start();
+  await santasList.connect(attacker).goodDeed();
+  const deeds = await santasList.goodDeedsLeft(attacker.address);
+  expect(deeds).to.equal(11);
+});
+
+it("should not remove 2 deed", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  await santasList.connect(attacker).start();
+  await santasList.connect(attacker).goodDeed();
+  expect(santasList.connect(attacker).goodDeed()).be.revertedWith("You have already done your good deed this month");
+  const deeds = await santasList.goodDeedsLeft(attacker.address);
+  expect(deeds).to.equal(11);
+});
+
+it("should have 0 deeds left and be nice", async function () {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
   const AttackerContract = await ethers.getContractFactory(
     "Attacker",
     attacker
   );
   const attackerContract = await AttackerContract.deploy();
 
-  console.log("AttackerContract:", attackerContract.address);
-
-  let deeds = await santasList.goodDeedsLeft(attacker.address);
-  expect(deeds).to.equal(0);
-
-  let isNice = await santasList.isNice(attacker.address);
-  expect(isNice).to.equal(false);
-
-  await santasList.connect(attacker).start();
-  deeds = await santasList.goodDeedsLeft(attacker.address);
-  expect(deeds).to.equal(12);
-
-  isNice = await santasList.isNice(attacker.address);
-  expect(isNice).to.equal(false);
-
-  await santasList.connect(attacker).goodDeed();
-  deeds = await santasList.goodDeedsLeft(attacker.address);
-  expect(deeds).to.equal(11);
-
   await attackerContract.connect(attacker).setTarget(santasList.address);
   await attackerContract.connect(attacker).attack({ gasLimit: 30000000 });
 
-  deeds = await santasList.goodDeedsLeft(attacker.address);
+  const deeds = await santasList.goodDeedsLeft(attacker.address);
   expect(deeds).to.equal(0);
 
-  isNice = await santasList.isNice(attacker.address);
+  const isNice = await santasList.isNice(attacker.address);
   expect(isNice).to.equal(true);
 });
