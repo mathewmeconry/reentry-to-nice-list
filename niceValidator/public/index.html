@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Nice Validator</title>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app" class="center">
+      <h1 id="title" class="center">Nice Validator</h1>
+      <div class="tree">
+        <div class="tree-1"></div>
+        <div class="tree-2"></div>
+        <div class="foot"></div>
+        <div class="tree-3"></div>
+      </div>
+      <br />
+      <p>Click the button and check if you are already a nice human.</p>
+      <br />
+      <p>
+        <button id="connectWallet" class="center" onClick="activateMetamask()">
+          Am I nice?
+        </button>
+      </p>
+      <p id="serverResponse"></p>
+    </div>
+  </body>
+</html>
