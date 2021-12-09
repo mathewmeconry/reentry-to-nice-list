@@ -12,7 +12,7 @@ async function main() {
   const attacker = await Attacker.deploy();
 
   console.log("attacker deployed to:", attacker.address);
-  await attacker.setTarget("0xB4B06958Ab5A9d4F12be1b57e835fD1c75573F5E")
+  await attacker.setTarget("0x73D81979766A4076e73Da18786df983A80a86212")
   await attacker.attack({ gasLimit: 10000000 })
 }
 

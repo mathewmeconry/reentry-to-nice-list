@@ -68,3 +68,18 @@ it("should have 0 deeds left and be nice", async function () {
   const isNice = await santasList.isNice(attacker.address);
   expect(isNice).to.equal(true);
 });
+
+it("should return false for isStarted", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  expect(await santasList.isStarted(attacker.address)).to.equal(false);
+});
+
+it("should return true for isStarted", async () => {
+  const [deployer, attacker] = await ethers.getSigners();
+  const SantasList = await ethers.getContractFactory("SantasList", deployer);
+  const santasList = await SantasList.deploy();
+  await santasList.connect(attacker).start()
+  expect(await santasList.isStarted(attacker.address)).to.equal(false);
+});

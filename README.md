@@ -12,7 +12,7 @@ Unluckily for you, Christmas is in a few days and you can only submit 1 deed at 
 Or can you get your counter to 0 in time?
 
 More Information to start:
-- Contract address: 0x82Ff67Ed282eFdeBcE2BA1176d65f39762Ce1cc5
+- Contract address: 0x73D81979766A4076e73Da18786df983A80a86212
 - Network used: Etherum Rinkeby (Test Network)
 - Create a Wallet: use the metamask browser extension
 - Get some ETH: [https://faucets.chain.link/rinkeby](https://faucets.chain.link/rinkeby) or [https://faucet.rinkeby.io/](https://faucet.rinkeby.io/)

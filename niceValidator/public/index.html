@@ -19,14 +19,30 @@
         <div class="tree-3"></div>
       </div>
       <br />
-      <p>Click the button and check if you are already a nice human.</p>
+      <p></p>
       <br />
       <p>
         <button id="connectWallet" class="center" onClick="activateMetamask()">
+          Connect Wallet
+        </button>
+      </p>
+      <p id="errors"></p>
+      <p id="start" style="display: none;">
+        <button id="start-btn" class="center" onClick="start()">
+          Start the challenge
+        </button>
+      </p>
+      <p id="goodDeed" style="display: none;">
+        <button id="goodDeed-btn" class="center" onClick="goodDeed()">
+          Report a good dead!
+        </button>
+      </p>
+      <p id="niceYet" style="display: none;">
+        <button id="niceYet-btn" class="center" onClick="niceYet()">
           Am I nice?
         </button>
       </p>
-      <p id="serverResponse"></p>
+      <p id="response"></p>
     </div>
   </body>
 </html>
