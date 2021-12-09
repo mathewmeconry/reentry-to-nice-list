@@ -81,5 +81,5 @@ it("should return true for isStarted", async () => {
   const SantasList = await ethers.getContractFactory("SantasList", deployer);
   const santasList = await SantasList.deploy();
   await santasList.connect(attacker).start()
-  expect(await santasList.isStarted(attacker.address)).to.equal(false);
+  expect(await santasList.isStarted(attacker.address)).to.equal(true);
 });
