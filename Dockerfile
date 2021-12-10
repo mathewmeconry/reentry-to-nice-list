@@ -1,4 +1,4 @@
-FROM node:12-slim
+FROM node:16-slim
 
 RUN mkdir -p /home/appuser/
 RUN mkdir -p /app
